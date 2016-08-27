@@ -23,5 +23,26 @@ post '/add_contacts' do
   end
 end
 
+post '/update_contacts' do
+  contact_id = params[:id]
+	@contacts = Contact.find(contact_id)
+  
+	@contacts.first_name = params[:first_name]
+	@contacts.last_name = params[:last_name]
+	@contacts.email = params[:email]
+	@contacts.phone = params[:phone]
+  @contacts.save
+	
+	# @contacts.update(first_name: first_name, last_name: last_name, email: email, phone: phone)
+	if @contacts.save
+		Contact.all.to_json
+	end	
+end
 
+post '/delete_contacts' do
+  contact_id = params[:id]
+  @contacts = Contact.find(contact_id)
+  @contacts.destroy
+  Contact.all.to_json
+end
 
